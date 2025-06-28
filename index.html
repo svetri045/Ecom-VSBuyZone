@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Meta and Title -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VSBuyZone - Your Smart Shopping Destination</title>
+
+  <!-- Bootstrap & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <style>
+  /* Global Styling */
+.navbar {
+  font-family: 'Segoe UI', sans-serif;
+}
+  .navbar .form-control {
+    max-width: 180px;
+  }
+  .navbar .btn {
+    white-space: nowrap;
+  }
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+
+.nav-link {
+  font-weight: 500;
+  padding: 10px 15px !important;
+  color: white !important;
+}
+
+.nav-link:hover {
+  color: #ffc107 !important;
+}
+
+.cart-icon {
+  position: relative;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.cart-icon .badge {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  font-size: 0.7rem;
+  background-color: red;
+  border-radius: 50%;
+}
+
+.search-input {
+  border-radius: 20px 0 0 20px;
+  border: none;
+  padding: 6px 15px;
+  max-width: 220px;
+}
+
+.search-btn {
+  border-radius: 0 20px 20px 0;
+  border: none;
+  background-color: #ffc107;
+  color: black;
+  padding: 6px 15px;
+}
+
+.btn-login {
+  border-radius: 20px;
+  font-weight: 500;
+  margin-left: 10px;
+}
+
+/* Responsive Styling */
+@media (max-width: 991px) {
+  .navbar-collapse {
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .navbar-nav {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .search-bar {
+    flex-direction: column;
+    align-items: stretch;
+    margin-top: 15px;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .search-input,
+  .search-btn {
+    width: 100%;
+    border-radius: 50px !important;
+    margin-bottom: 0;
+  }
+
+  .btn-login {
+    margin-left: 0;
+    margin-top: 5px;
+    width: 100%;
+  }
+
+  .cart-icon {
+    margin-top: 5px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .feature-card,
+  .category-cover-card,
+  .product-card {
+    margin-bottom: 15px;
+  }
+
+  .container,
+  .row,
+  .col-md-4,
+  .col-sm-6 {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  section {
+    margin-bottom: 30px;
+  }
+
+  .hero .container {
+    padding: 0 15px;
+  }
+
+  .ecom-contact .row,
+  .footer-alt .row {
+    row-gap: 20px;
+  }
+}
+
+/* Product & Feature Cards */
+.feature-card {
+  transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+  cursor: pointer;
+  border: 2px solid blue;
+  box-shadow: 0 0 20px blue;
+  border-radius: 8px;
+  will-change: transform;
+}
+
+.feature-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px cyan;
+  z-index: 2;
+}
+
+/* Category Styles */
+.category-img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  will-change: transform;
+}
+
+.hover-scale-glow:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(255, 193, 7, 0.7);
+  border-radius: 8px;
+}
+
+.category-cover-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  height: 250px;
+  transition: transform 0.4s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.category-cover-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.category-cover-card:hover img {
+  transform: scale(1.1);
+}
+
+.category-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 15px;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+  text-align: center;
+  color: #fff;
+  transition: background 0.4s ease;
+}
+
+.category-cover-card:hover .category-overlay {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.category-overlay h6 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.category-overlay p {
+  font-size: 0.85rem;
+  margin: 0;
+  color: #ddd;
+}
+
+/* Feature Box */
+.feature-box {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.feature-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(13, 110, 253, 0.2);
+}
+
+.feature-icon {
+  font-size: 2rem;
+  color: #0d6efd;
+  margin-bottom: 10px;
+}
+
+/* Contact Section */
+.ecom-contact {
+  background-color: #f8f9fa;
+  padding: 80px 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.ecom-contact h3 {
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #0d6efd;
+}
+
+.ecom-contact p,
+.ecom-contact a {
+  color: #555;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.ecom-contact a:hover {
+  color: #0d6efd;
+}
+
+.ecom-contact .form-control {
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: none;
+}
+
+.ecom-contact .form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+}
+
+.ecom-contact button {
+  background-color: #0d6efd;
+  border: none;
+  padding: 10px 30px;
+  color: #fff;
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+
+.ecom-contact button:hover {
+  background-color: #0b5ed7;
+}
+
+.ecom-contact .contact-icon {
+  color: #0d6efd;
+  margin-right: 10px;
+}
+
+/* Footer */
+.footer-alt {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #e0e0e0;
+  padding: 60px 0 30px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.footer-alt h5 {
+  font-size: 1.2rem;
+  color: #fff;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.footer-alt a {
+  color: #ccc;
+  display: block;
+  margin-bottom: 10px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.footer-alt a:hover {
+  color: #00d4ff;
+  padding-left: 6px;
+}
+
+.social-icons-alt a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid #aaa;
+  border-radius: 50%;
+  margin-right: 10px;
+  color: #fff;
+  transition: 0.3s ease-in-out;
+  text-decoration: none;
+}
+
+.social-icons-alt a:hover {
+  background: #00d4ff;
+  border-color: #00d4ff;
+  color: #000;
+  transform: scale(1.1);
+}
+
+.footer-bottom-alt {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 40px;
+  padding-top: 20px;
+  text-align: center;
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+</style>
+<!-- Font Awesome for icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#">VSBuyZone</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+      
+      <!-- Centered Nav Links -->
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link text-white" href="#hero">Home</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#products">Products</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#features">Features</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#categories">Categories</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#contact">Contact</a></li>
+      </ul>
+
+      <!-- Right Side -->
+      <div class="d-flex align-items-center flex-wrap">
+        <!-- Search Bar -->
+        <form class="d-flex me-2 flex-nowrap">
+          <input type="text" class="form-control form-control-sm" placeholder="Search products..." />
+          <button class="btn btn-warning btn-sm ms-2" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+
+        <!-- Cart Icon -->
+        <a href="cart.html" class="nav-link position-relative me-3">
+          <i class="fas fa-shopping-cart text-white fs-5"></i>
+          <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+        </a>
+
+        <!-- Login Button -->
+        <a href="#" class="btn btn-sm btn-light">Login</a>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+  
+     <!-- Hero Section -->
+  <section class="hero position-relative d-flex align-items-center justify-content-center text-center text-white" id="hero" style="height: 100vh; background: linear-gradient(to right, rgba(40,116,240,0.7), rgba(40,116,240,0.7)), url('https://source.unsplash.com/1600x900/?shopping,store') center/cover no-repeat;">
+    <div class="container position-relative z-2">
+      <h1 class="display-3 fw-bold animate__animated animate__zoomInDown">Welcome to VSBuyZone</h1>
+      <p class="lead mb-4 animate__animated animate__fadeIn animate__delay-1s">The Ultimate Shopping Destination for All Your Needs</p>
+      <a href="#products" class="btn btn-warning btn-lg px-4 py-2 animate__animated animate__fadeInUp animate__delay-2s">Shop Now</a>
+
+      <!-- Highlights -->
+        <div class="row mt-0 gy-4 gx-3 mb-5">
+
+        <div class="col-md-4 animate__animated animate__fadeInUp animate__delay-3s">
+          <div class="bg-white text-dark p-4 rounded shadow-lg">
+            <i class="fas fa-shipping-fast fa-2x text-primary mb-2"></i>
+            <h5>Free Shipping</h5>
+            <p class="small">On orders above ₹499</p>
+          </div>
+        </div>
+        <div class="col-md-4 animate__animated animate__fadeInUp animate__delay-4s">
+          <div class="bg-white text-dark p-4 rounded shadow-lg">
+            <i class="fas fa-undo-alt fa-2x text-primary mb-2"></i>
+            <h5>7-Day Returns</h5>
+            <p class="small">Hassle-Free Easy Returns</p>
+          </div>
+        </div>
+        <div class="col-md-4 animate__animated animate__fadeInUp animate__delay-5s">
+          <div class="bg-white text-dark p-4 rounded shadow-lg">
+            <i class="fas fa-percent fa-2x text-primary mb-2"></i>
+            <h5>Top Offers</h5>
+            <p class="small">Up to 70% Off</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0, 0, 0, 0.3);"></div>
+  </section>
+
+<!-- Categories Section -->
+<div class="container mt-4">
+  <div class="row text-center bg-warning py-2 rounded p-2 animate__animated animate__fadeInUp">
+
+    <div class="col text-bg-light p-3">
+      <img src="offer.jpg" alt="Offer" class="category-img hover-scale-glow" />
+      <p>OFFER</p>
+    </div>
+
+    <div class="col text-bg-light p-3">
+      <img src="grocery.jpg" alt="Grocery" class="category-img hover-scale-glow" />
+      <p>GROCERY</p>
+    </div>
+
+    <div class="col text-bg-light p-3">
+      <img src="mobile.jpg" alt="Mobile" class="category-img hover-scale-glow" />
+      <p>MOBILES</p>
+    </div>
+
+    <div class="col text-bg-light p-3">
+      <img src="applince.jpg" alt="Appliance" class="category-img hover-scale-glow" />
+      <p>APPLIANCES</p>
+    </div>
+
+    <div class="col text-bg-light p-3">
+      <img src="toys.jpg" alt="Toys" class="category-img hover-scale-glow" />
+      <p>TOYS & GIFTS</p>
+    </div>
+
+  </div>
+</div>
+
+  <!-- Products Section --><!-- Products Section -->
+<section id="products" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title text-center text-primary fw-bold mt-5 mb-5 animate__animated animate__fadeInDown">Top Deals</h2>
+    <div class="row g-4">
+
+      <!-- Product Card Template Start -->
+      <!-- Repeat this block for each product -->
+      <div class="col-md-4 col-sm-6">
+        <div class="card product-card h-100 border-0 shadow-sm animate__animated animate__fadeInUp">
+          <div class="position-relative d-flex align-items-center justify-content-center p-1" style="height: 220px; overflow: hidden;">
+            <img src="mobile.jpg" class="card-img-top" alt="Smartphone" style="height: 100%; width: 100%; object-fit: contain;">
+            <span class="badge bg-danger position-absolute top-0 end-0 m-2">-20%</span>
+          </div>
+          <div class="card-body text-center">
+            <h5 class="card-title">Smartphone</h5>
+            <p class="text-muted">₹12,999 <s class="ms-2 text-secondary">₹15,999</s></p>
+           <button class="btn btn-primary" onclick="addToCart('Smartphone', 12999)">Add to Cart</button>
+
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Card -->
+      <div class="col-md-4 col-sm-6">
+        <div class="card product-card h-100 border-0 shadow-sm animate__animated animate__fadeInUp animate__delay-1s">
+          <div class="position-relative d-flex align-items-center justify-content-center p-3" style="height: 220px; overflow: hidden;">
+            <img src="laptop.jpg" class="card-img-top" alt="Laptop" style="height: 100%; width: 100%; object-fit: contain;">
+            <span class="badge bg-success position-absolute top-0 end-0 m-2">New</span>
+          </div>
+          <div class="card-body text-center">
+            <h5 class="card-title">Laptop</h5>
+            <p class="text-muted">₹44,999</p>
+    <button class="btn btn-primary" onclick="addToCart('Laptop', 44999)">Add to Cart</button>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6">
+        <div class="card product-card h-100 border-0 shadow-sm animate__animated animate__fadeInUp animate__delay-2s">
+          <div class="position-relative d-flex align-items-center justify-content-center" style="height: 220px; overflow: hidden;">
+            <img src="shoe.jpg" class="card-img-top" alt="Shoes" style="height: 100%; width: 100%; object-fit: contain;">
+            <span class="badge bg-info position-absolute top-0 end-0 m-2">Trending</span>
+          </div>
+          <div class="card-body text-center">
+            <h5 class="card-title">Sneakers</h5>
+            <p class="text-muted">₹1,999</p>
+            <button class="btn btn-primary" onclick="addToCart('Sneakers', 1999)">Add to Cart</button>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6">
+        <div class="card product-card h-100 border-0 shadow-sm animate__animated animate__fadeInUp animate__delay-3s">
+          <div class="position-relative d-flex align-items-center justify-content-center" style="height: 220px; overflow: hidden;">
+            <img src="watch.jpg" class="card-img-top" alt="Smartwatch" style="height: 100%; width: 100%; object-fit: contain;">
+          </div>
+          <div class="card-body text-center">
+            <h5 class="card-title">Smartwatch</h5>
+            <p class="text-muted">₹3,499</p>
+           <button class="btn btn-primary" onclick="addToCart('Smartwatch', 3499)">Add to Cart</button>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6">
+        <div class="card product-card h-100 border-0 shadow-sm animate__animated animate__fadeInUp animate__delay-4s">
+          <div class="position-relative d-flex align-items-center justify-content-center" style="height: 220px; overflow: hidden;">
+            <img src="headphone.jpg" class="card-img-top" alt="Headphones" style="height: 100%; width: 100%; object-fit: contain;">
+          </div>
+          <div class="card-body text-center">
+            <h5 class="card-title">Headphones</h5>
+            <p class="text-muted">₹2,199</p>
+           <button class="btn btn-primary" onclick="addToCart('Headphones', 2199)">Add to Cart</button>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6">
+        <div class="card product-card h-100 border-0 shadow-sm animate__animated animate__fadeInUp animate__delay-5s">
+          <div class="position-relative d-flex align-items-center justify-content-center" style="height: 220px; overflow: hidden;">
+            <img src="camera.jpg" class="card-img-top" alt="Camera" style="height: 100%; width: 100%; object-fit: contain;">
+          </div>
+          <div class="card-body text-center">
+            <h5 class="card-title">Camera</h5>
+            <p class="text-muted">₹18,999</p>
+          <button class="btn btn-primary" onclick="addToCart('Camera', 18999)">Add to Cart</button>
+
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+
+<section id="features" class="bg-light py-5">
+  <div class="container">
+    <h2 class="section-title text-center mb-5 text-primary fw-bold animate__animated animate__fadeInDown">Why Shop With Us?</h2>
+
+    <div class="row text-center">
+      <div class="col-md-4">
+        <div class="feature-card p-4 bg-white animate__animated animate__fadeInUp animate__delay-1s">
+          <i class="fas fa-lock fa-3x text-primary mb-3"></i>
+          <h5>Secure & Trusted</h5>
+          <p>Your privacy is our priority</p>
+          <p class="small text-muted">Bank-level security ensures all transactions are safe and encrypted.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card p-4 bg-white animate__animated animate__fadeInUp animate__delay-2s">
+          <i class="fas fa-headset fa-3x text-primary mb-3"></i>
+          <h5>Always Available</h5>
+          <p>24x7 customer assistance</p>
+          <p class="small text-muted">Live chat, email & phone support anytime you need help.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card p-4 bg-white animate__animated animate__fadeInUp animate__delay-3s">
+          <i class="fas fa-star fa-3x text-primary mb-3"></i>
+          <h5>Customer Approved</h5>
+          <p>4.9★ average ratings</p>
+          <p class="small text-muted">Thousands of verified reviews from satisfied shoppers.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row text-center mt-4">
+      <div class="col-md-4">
+        <div class="feature-card p-4 bg-white animate__animated animate__fadeInUp animate__delay-4s">
+          <i class="fas fa-shipping-fast fa-3x text-primary mb-3"></i>
+          <h5>Fast & Reliable Delivery</h5>
+          <p>Speed meets satisfaction</p>
+          <p class="small text-muted">We deliver to your doorstep faster than you expect time.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card p-4 bg-white animate__animated animate__fadeInUp animate__delay-5s">
+          <i class="fas fa-sync-alt fa-3x text-primary mb-3"></i>
+          <h5>Quick & Easy Returns</h5>
+          <p>7-day worry-free return</p>
+          <p class="small text-muted">Didn’t like it? Send it back with zero stress.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card p-4 bg-white animate__animated animate__fadeInUp animate__delay-6s">
+          <i class="fas fa-tags fa-3x text-primary mb-3"></i>
+          <h5>Exclusive Offers</h5>
+          <p>Shop smart, save more</p>
+          <p class="small text-muted">Flash deals, app discounts & festival sales just for you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Categories Section -->
+<section id="categories" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title text-center text-primary fw-bold mb-5 animate__animated animate__fadeInDown">
+      Shop by Category
+    </h2>
+
+    <div class="row g-4">
+
+      <!-- Category 1 -->
+      <div class="col-md-3 col-sm-6">
+        <div class="category-cover-card animate__animated animate__zoomIn">
+          <img src="mobile.jpg" alt="Mobiles">
+          <div class="category-overlay">
+            <h6>Mobiles</h6>
+            <p>Latest smartphones</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 2 -->
+      <div class="col-md-3 col-sm-6">
+        <div class="category-cover-card animate__animated animate__zoomIn animate__delay-1s">
+          <img src="fashion.jpg" alt="Fashion">
+          <div class="category-overlay">
+            <h6>Fashion</h6>
+            <p>Trendy clothing</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 3 -->
+      <div class="col-md-3 col-sm-6">
+        <div class="category-cover-card animate__animated animate__zoomIn animate__delay-2s">
+          <img src="electronics.jpg" alt="Electronics">
+          <div class="category-overlay">
+            <h6>Electronics</h6>
+            <p>Smart devices</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 4 -->
+      <div class="col-md-3 col-sm-6">
+        <div class="category-cover-card animate__animated animate__zoomIn animate__delay-3s">
+          <img src="furniture.jpg" alt="Furniture">
+          <div class="category-overlay">
+            <h6>Furniture</h6>
+            <p>Modern decor</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 5 -->
+      <div class="col-md-3 col-sm-6">
+        <div class="category-cover-card animate__animated animate__zoomIn animate__delay-4s">
+          <img src="toys.jpg" alt="Toys">
+          <div class="category-overlay">
+            <h6>Toys & Games</h6>
+            <p>Fun for kids</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 6 -->
+      <div class="col-md-3 col-sm-6">
+        <div class="category-cover-card animate__animated animate__zoomIn animate__delay-5s">
+          <img src="beauty.jpg" alt="Beauty">
+          <div class="category-overlay">
+            <h6>Beauty</h6>
+            <p>Skincare & more</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 7 -->
+      <div class="col-md-3 col-sm-6">
+        <div class="category-cover-card animate__animated animate__zoomIn animate__delay-6s">
+          <img src="sports.jpg" alt="Sports">
+          <div class="category-overlay">
+            <h6>Sports</h6>
+            <p>Fitness gear</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 8 -->
+      <div class="col-md-3 col-sm-6">
+        <div class="category-cover-card animate__animated animate__zoomIn animate__delay-7s">
+          <img src="grocery.jpg" alt="Grocery">
+          <div class="category-overlay">
+            <h6>Grocery</h6>
+            <p>Daily essentials</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- About Section -->
+<section id="about" class="py-5 bg-light">
+  <div class="container">
+    
+    <!-- Heading -->
+    <div class="text-center mb-5">
+      <h2 class="text-primary fw-bold animate__animated animate__fadeInDown">About FlipShop</h2>
+      <p class="text-muted fs-5 animate__animated animate__fadeInDown animate__delay-1s">
+        Experience a new era of online shopping — where convenience, quality, and affordability meet.
+      </p>
+    </div>
+
+    <!-- Main Content Row -->
+    <div class="row align-items-center mb-5">
+      <!-- Left: Text -->
+      <div class="col-md-6 animate__animated animate__fadeInLeft">
+        <h4 class="fw-bold text-dark mb-3">Who We Are</h4>
+        <p class="text-muted fs-6">
+          FlipShop is an innovative e-commerce platform that brings together thousands of brands and millions of products under one roof. 
+          We’re committed to providing an exceptional shopping experience with fast delivery, reliable customer service, and unbeatable prices.
+        </p>
+        <p class="text-muted fs-6">
+          Our mission is to make quality products accessible to everyone, everywhere. We believe in empowering customers by providing
+          convenience, trust, and value for money with every order.
+        </p>
+        <a href="#products" class="btn btn-primary mt-3">Explore Our Products</a>
+      </div>
+
+      <!-- Right: Image -->
+      <div class="col-md-6 text-center animate__animated animate__fadeInRight">
+        <img src="man.jpg" class="img-fluid rounded shadow" alt="About FlipShop">
+      </div>
+    </div>
+
+    <!-- Why Choose Us Row -->
+    <div class="row g-4">
+      <div class="col-md-3 col-sm-6 animate__animated animate__fadeInUp">
+        <div class="feature-box text-center">
+          <div class="feature-icon"><i class="fas fa-shipping-fast"></i></div>
+          <h6 class="fw-bold">Fast Delivery</h6>
+          <p class="text-muted small">Get your orders delivered quickly and on time across the country.</p>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-sm-6 animate__animated animate__fadeInUp animate__delay-1s">
+        <div class="feature-box text-center">
+          <div class="feature-icon"><i class="fas fa-rupee-sign"></i></div>
+          <h6 class="fw-bold">Affordable Prices</h6>
+          <p class="text-muted small">Best deals and discounts on every category, every day.</p>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-sm-6 animate__animated animate__fadeInUp animate__delay-2s">
+        <div class="feature-box text-center">
+          <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+          <h6 class="fw-bold">Secure Shopping</h6>
+          <p class="text-muted small">Your payments and data are protected with bank-level security.</p>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-sm-6 animate__animated animate__fadeInUp animate__delay-3s">
+        <div class="feature-box text-center">
+          <div class="feature-icon"><i class="fas fa-headset"></i></div>
+          <h6 class="fw-bold">24/7 Support</h6>
+          <p class="text-muted small">Dedicated customer support team available round the clock.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+  <!-- Newsletter Signup -->
+  <section class="bg-primary text-white py-5">
+    <div class="container text-center">
+      <h3 class="mb-3">Stay Updated!</h3>
+      <p>Subscribe to receive latest deals, offers & news directly in your inbox</p>
+      <form class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="input-group">
+            <input type="email" class="form-control" placeholder="Enter your email">
+            <button class="btn btn-warning" type="submit">Subscribe</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+<!-- Contact Section -->
+<section class="ecom-contact" id="contact">
+  <div class="container">
+    <h2 class="text-center mb-5 fw-bold text-primary">Contact Us</h2>
+    <div class="row">
+
+      <!-- Help Links -->
+      <div class="col-md-4">
+        <h3>Help & Support</h3>
+        <p><a href="#"><i class="fas fa-truck contact-icon"></i> Track Your Order</a></p>
+        <p><a href="#"><i class="fas fa-undo contact-icon"></i> Returns & Refunds</a></p>
+        <p><a href="#"><i class="fas fa-lock contact-icon"></i> Payment Issues</a></p>
+        <p><a href="#"><i class="fas fa-user-shield contact-icon"></i> Account Security</a></p>
+        <p><a href="#"><i class="fas fa-info-circle contact-icon"></i> FAQs & Help Center</a></p>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="col-md-4">
+        <h3>Customer Service</h3>
+        <p><i class="fas fa-phone contact-icon"></i> +91 98765 43210</p>
+        <p><i class="fas fa-envelope contact-icon"></i> help@flipshop.com</p>
+        <p><i class="fas fa-map-marker-alt contact-icon"></i> FlipShop HQ, Chennai, India</p>
+        <p><i class="fas fa-clock contact-icon"></i> Mon - Sat: 9:00 AM - 7:00 PM</p>
+        <p><i class="fas fa-globe contact-icon"></i> www.flipshop.com</p>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="col-md-4">
+        <h3>Write to Us</h3>
+        <form>
+          <input type="text" class="form-control" placeholder="Your Name" required>
+          <input type="email" class="form-control" placeholder="Your Email" required>
+          <textarea class="form-control" rows="4" placeholder="Your Message" required></textarea>
+          <div class="text-end">
+            <button type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- Footer Section -->
+<footer class="footer-alt">
+  <div class="container">
+    <div class="row">
+
+      <!-- Brand -->
+      <div class="col-md-4 mb-4">
+        <h5>FlipShop</h5>
+        <p>Your one-stop shop for everything you love. Great products. Great prices. Delivered fast.</p>
+        <div class="social-icons-alt mt-3">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Useful Links -->
+      <div class="col-md-4 mb-4">
+        <h5>Explore</h5>
+        <a href="#Home">Home</a>
+        <a href="#categories">Categories</a>
+        <a href="#features">Features</a>
+        <a href="#contact">Contact Us</a>
+        <a href="#">FAQs</a>
+      </div>
+
+      <!-- Support -->
+      <div class="col-md-4 mb-4">
+        <h5>Support</h5>
+        <p><i class="fas fa-phone me-2"></i>+91 98765 43210</p>
+        <p><i class="fas fa-envelope me-2"></i>support@flipshop.com</p>
+        <p><i class="fas fa-map-marker-alt me-2"></i>Chennai, Tamil Nadu, India</p>
+      </div>
+    </div>
+
+    <!-- Bottom -->
+    <div class="footer-bottom-alt">
+      &copy; 2025 FlipShop. Built with ❤️ by Vetri. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Add to Cart function using localStorage
+  function addToCart(productName, productPrice) {
+    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+    // Check if already exists
+    const existingItem = cartItems.find(item => item.name === productName);
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      cartItems.push({ name: productName, price: productPrice, quantity: 1 });
+    }
+
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    alert(`${productName} added to cart!`);
+
+    updateCartCount(); // Update count on navbar
+  }
+
+  // Show cart count on navbar
+  function updateCartCount() {
+    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    const count = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+    const badge = document.getElementById("cart-count");
+    if (badge) badge.textContent = count;
+  }
+
+  document.addEventListener("DOMContentLoaded", updateCartCount);
+</script>
+
+
+</body>
+</html>
